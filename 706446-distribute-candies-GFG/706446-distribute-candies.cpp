@@ -1,17 +1,26 @@
-class Solution{
+
+class Solution {
 public:
-    int distCandy(Node* root){
-        int ans=0;
-        function<int(Node*)> dfs=[&](Node* r){
-            if(!r)return 0;
-            int l=dfs(r->left),rr=dfs(r->right);
-            ans+=abs(l)+abs(rr);
-            return r->data+l+rr-1;
-        };
+    int ans = 0;
+
+    int dfs(Node* root) {
+        if (!root) return 0;
+
+        int l = dfs(root->left);
+        int r = dfs(root->right);
+
+        ans += abs(l) + abs(r);
+
+        return root->data + l + r - 1;
+    }
+
+    int distCandy(Node* root) {
+        ans = 0;
         dfs(root);
         return ans;
     }
 };
+
 
 // Synced seamlessly with LeetHub Pro
 // Pro features: https://bit.ly/leethubpro | Free version: https://bit.ly/leethubv4
