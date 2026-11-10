@@ -1,0 +1,55 @@
+class Solution {
+public:
+    vector<int> search(string& pat, string& txt) {
+        int n = txt.length();
+        int m = pat.length();
+        vector<int> result;
+
+        if (m > n) return result;
+
+        vector<int> lps(m, 0);
+        int len = 0;
+        int i = 1;
+
+        while (i < m) {
+            if (pat[i] == pat[len]) {
+                len++;
+                lps[i] = len;
+                i++;
+            } else {
+                if (len != 0) {
+                    len = lps[len - 1];
+                } else {
+                    lps[i] = 0;
+                    i++;
+                }
+            }
+        }
+
+        i = 0;
+        int j = 0;
+        while (i < n) {
+            if (pat[j] == txt[i]) {
+                i++;
+                j++;
+            }
+
+            if (j == m) {
+                result.push_back(i - j);
+                j = lps[j - 1];
+            } else if (i < n && pat[j] != txt[i]) {
+                if (j != 0) {
+                    j = lps[j - 1];
+                } else {
+                    i++;
+                }
+            }
+        }
+
+        return result;
+    }
+};
+
+// Synced seamlessly with LeetHub Pro
+// Pro features: https://bit.ly/leethubpro | Free version: https://bit.ly/leethubv4
+// Get it here: https://chromewebstore.google.com/detail/bcilpkkbokcopmabingnndookdogmbna
