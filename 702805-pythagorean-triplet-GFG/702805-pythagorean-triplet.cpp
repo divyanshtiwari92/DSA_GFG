@@ -1,31 +1,32 @@
+
 class Solution {
 public:
     bool pythagoreanTriplet(vector<int>& arr) {
-        int n = arr.size();
-        for (int i = 0; i < n; i++) {
-            arr[i] = arr[i] * arr[i];
-        }
+        int mx = *max_element(arr.begin(), arr.end());
 
-        sort(arr.begin(), arr.end());
+        vector<bool> present(mx + 1, false);
 
-        for (int i = n - 1; i >= 2; i--) {
-            int left = 0;
-            int right = i - 1;
+        for (int x : arr)
+            present[x] = true;
 
-            while (left < right) {
-                if (arr[left] + arr[right] == arr[i]) {
+        for (int a = 1; a <= mx; a++) {
+            if (!present[a]) continue;
+
+            for (int b = a + 1; b <= mx; b++) {
+                if (!present[b]) continue;
+
+                int sum = a * a + b * b;
+                int c = sqrt(sum);
+
+                if (c <= mx && c * c == sum && present[c])
                     return true;
-                } else if (arr[left] + arr[right] < arr[i]) {
-                    left++;
-                } else {
-                    right--;
-                }
             }
         }
 
         return false;
     }
 };
+
 
 // Synced seamlessly with LeetHub Pro
 // Pro features: https://bit.ly/leethubpro | Free version: https://bit.ly/leethubv4
